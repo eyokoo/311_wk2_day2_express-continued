@@ -10,14 +10,14 @@ contacts.forEach(function (contact) { //loop through all the contacts,
 
 // For Handling GET /contacts
 let list = (req, res) => {
-  // console.log("Inside the contactsCtrl list()")
+  console.log("Inside the GET/ contactsCtrl list()")
   res.json(contacts);
 }
 
 
 // For handling the POST/ contact
 let create = function (req, res) {
-  // console.log("inside the POST /contacts route", req.body);
+  console.log("inside the POST /contacts route", req.body);
   let newContacts = {
     _id: req.body._id,
     name: req.body.name,
@@ -26,19 +26,22 @@ let create = function (req, res) {
   req.body._id = nextContactId;  //read in the data and assign an id to the contact
   nextContactId++; //increment the varialbe holding the next id so when we add the next contact, they dont get the same id
   contacts.push(newContacts);
-  res.json(contacts); //just to send that it worked
+  res.send("success"); //just to send that it worked
 }
 
 //Get contacts By Id function
 let show = function (req, res) {
-
+  console.log("Inside the contactsCtrl GET /contacts:id route", req.params)
   //FILL THIS IN FOR THE ASSIGNMENT
-  const foundId = contacts.some(contact => contact._id == req.params.id) //does the user's params exist in the database? Need to find the id in the database. 
-  if (foundId) {  //if found it will return res.send()
-    res.send(contacts.filter(contact => contact._id == req.params.id))//will be able to show this in html as a text
-  } else {
-    res.status(404).json({msg:"ID not in database"})
+  let idToLookFor = req.params.id;
+  //loop through the users array,
+  //and find the user with correct id
+  let contact = contacts.find = (element) => {
+    if (element._id == idToLookFor) {
+      return element;
+    }
   }
+    res.json(contact);
 }
 
 //EXPORT THE 3 FUNCTIONS SO THEY CAN AVAILABLE TO THE ROUTES MODULE
